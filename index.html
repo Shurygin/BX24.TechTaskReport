@@ -1,0 +1,45 @@
+<!DOCTYPE HTML>
+<html>
+    <head>       
+        <script src="//api.bitrix24.com/api/v1/"></script>
+        <script src="jquery-3.1.1.min.js"></script>
+        <script src="app.js"></script>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="bootstrap-3.3.7-dist\css\bootstrap.min.css">
+    </head>
+    <body>
+        <div id="app">
+            <div id="user-name"></div>
+            <table id="filterTable" class="table table-bordered table-hover filterTable">
+                <tr ><h2 >Настройки отчёта</h2></tr>
+                <tr class="labelRow info">
+                    <td><label for="filterUsersList">Выберите сотрудника</label></td>
+                    <td><label for="filterBeginTime">Начальное время интервала</label></td>
+                    <td><label for="filterEndTime">Конечное время интервала</label></td>
+                    <td><label for="minCallTime">Минимальное время разговора, с</label></td>
+                    <td><label for="maxCallTime">Максимальное время разговора, с</label></td>
+                    <td><label for="filterCompany">Сформировать отчёт</label></td>                    
+                </tr>
+                <tr id="filterHead" class="filterHead">
+                    <form id="filterData" class="form-group"> 
+                        
+                        <td>                        
+                            <select id="filterUsersList" required name = "chosenUser" class="form-control">				            
+				                                            
+                            </select>
+                        </td>
+                        <td><input id="filterBeginTime" type="datetime-local" class="form-control"></td>
+                        <td><input id="filterEndTime" type="datetime-local" class="form-control"></td>
+                         <td><input id="filterMinTime" type="number" value="30" step="30" class="form-control"></td>
+                         <td><input id="filterMaxTime" type="number" value="30000" class="form-control"></td>
+                        <td><input id="filterButton" type="button" value="Сформировать отчет" class="btn btn-primary"></td>
+                        
+                    </form>
+                </tr>
+            </table>
+            <h2 style="text-align:center" class="mainTableHeader">Отчет</h2>
+            <p></p>
+        </div>
+        <div id="elemForDispatch"></div>
+    </body>    
+</html>
