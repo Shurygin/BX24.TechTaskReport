@@ -6,6 +6,14 @@
         <script src="app.js"></script>
         <meta charset="utf-8">
         <link rel="stylesheet" href="bootstrap-3.3.7-dist\css\bootstrap.min.css">
+        <style>
+            .P{
+                background-color: #dff0d8;
+            }
+            .N{
+                background-color: #f2dede;
+            }
+        </style>
     </head>
     <body>
         <div id="app">
@@ -16,8 +24,7 @@
                     <td><label for="filterUsersList">Выберите сотрудника</label></td>
                     <td><label for="filterBeginTime">Начальное время интервала</label></td>
                     <td><label for="filterEndTime">Конечное время интервала</label></td>
-                    <td><label for="minCallTime">Минимальное время разговора, с</label></td>
-                    <td><label for="maxCallTime">Максимальное время разговора, с</label></td>
+                   <td><label for="oklad">Оклад</label></td>
                     <td><label for="filterCompany">Сформировать отчёт</label></td>                    
                 </tr>
                 <tr id="filterHead" class="filterHead">
@@ -30,16 +37,16 @@
                         </td>
                         <td><input id="filterBeginTime" type="datetime-local" class="form-control"></td>
                         <td><input id="filterEndTime" type="datetime-local" class="form-control"></td>
-                         <td><input id="filterMinTime" type="number" value="30" step="30" class="form-control"></td>
-                         <td><input id="filterMaxTime" type="number" value="30000" class="form-control"></td>
+                        <td><input id="oklad" type="number" value="20000" step="1000" class="form-control"></td>
                         <td><input id="filterButton" type="button" value="Сформировать отчет" class="btn btn-primary"></td>
                         
                     </form>
                 </tr>
             </table>
-            <h2 style="text-align:center" class="mainTableHeader">Отчет</h2>
+            <h2 style="text-align:center" class="mainTableHeader"></h2>
             <p></p>
         </div>
         <div id="elemForDispatch"></div>
+        <div id="elemForDispatch2"></div>
     </body>    
 </html>
