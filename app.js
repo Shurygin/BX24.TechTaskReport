@@ -26,12 +26,24 @@ function Company(id,title){
     this.id=id;
     this.title=title;
 }
+/*function Row(rowNumber, companyName, carModel, carNumber, workType, closeDate, actTime, mark, price){
+    this.rowNumer=rowNumber;
+    this.companyName=companyName;
+    this.carModel=carModel;
+    this.carNumber=carNumber;
+    this.workType=workType;
+    this.closeDate=closeDate;
+    this.actTime=actTime;
+    this.mark=mark;
+    this.price=price;
+}*/
 $(document).ready(function(){
     let l,k,i,count=0;
     let employes=[];      
     let local = new Date();
-    let past = new Date(2592000000);
-    let pastTime = new Date(local-past);
+    let year = local.getFullYear();
+    let month = local.getMonth();
+    let pastTime = new Date(year,month,1);
     $('#filterEndTime').attr( "value", `${local.toDateInputValue()}T23:59`);
     $('#filterBeginTime').attr( "value", `${pastTime.toDateInputValue()}T00:00`); 
     BX24.callMethod('user.get', {"ACTIVE": true}, function(result){
@@ -109,18 +121,8 @@ $(document).ready(function(){
     }); 
     
     $('#elemForDispatch').dblclick(function(){        
-       /* taskID.forEach(function(id,i){            
-            setTimeout(function(){
-                BX24.callMethod('task.item.getdata',[id],function(result){
-		          tasks.push(result.data());		          
-                });
-            },i*i);                       
-            if(i==(taskID.length-1)){
-                setTimeout(function(){
-                    elemForDispatch.dispatchEvent(focusEvent);
-                },i*i+i*10);                
-            }
-        });*/
+       /* BX24.callBatch({get_check_list: ['task.checklistitem.getlist', [46278,{'TOGGLED_DATE': 'desc'}]],	}, function(result){console.log(result.get_check_list.data());});
+       */
         BX24.callMethod('task.item.list',[
             {ID : 'desc'},		
             {PARENT_ID:taskID},	
@@ -132,14 +134,16 @@ $(document).ready(function(){
             });
            if (result.more()){               
                 result.next();
-           } 
+           } else{
+               elemForDispatch.dispatchEvent(focusEvent);
+           }
 	       });
     });
     $('#elemForDispatch').focus(function(){
         
-        setTimeout(function(){
+       /*setTimeout(function(){
             $('#filterButton').removeAttr('disabled');
-        },tasks.length*200);
+        },tasks.length*200);*/
         tasks.forEach(function(task,i){            
             crm=task.UF_CRM_TASK;            
             crm.forEach(function(crmEl,k){                
@@ -210,16 +214,12 @@ $(document).ready(function(){
 			}
 		);
     });
-    $('#elemForDispatch').select(function(){
-        
-        tasks.forEach(function(task,t){
-            
+    $('#elemForDispatch').select(function(){        
+        tasks.forEach(function(task,t){            
             modValue=1;
             modCheck=false;
-            subTasks.forEach(function(subTask,st){
-                
-                if (task.ID==subTask.PARENT_ID){
-                    console.log(task.subTask.PARENT_ID);
+            subTasks.forEach(function(subTask,st){                 
+                if (task.ID==subTask.PARENT_ID){                   
                     
                     if (subTask.CLOSED_DATE!=null){
                         subCloseTime = new Date(subTask.CLOSED_DATE);
@@ -259,8 +259,7 @@ $(document).ready(function(){
                                 }
                                  
                                 
-                            });
-                               
+                            });                              
                                 
                                     
                                 works=task.TITLE.split(', ');                               
@@ -331,6 +330,7 @@ $(document).ready(function(){
             
             if(t==(tasks.length-1)) {
                 setTimeout(function(){
+                    $('#filterButton').removeAttr('disabled');
                     $('body').css('cursor','default');        
                     $('.mainTableHeader').html("Отчёт");
                     row=`<tr><td>${rowNumber}</td><td><b>ИТОГО</b></td><td></td><td></td><td></td><td></td><td></td><td></td><td>${(Number(cost)+Number($('#oklad').val()))}</td></tr>`; 
