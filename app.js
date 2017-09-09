@@ -13,7 +13,7 @@ let selectEvent = new Event("select");
 let keyupEvent = new Event("keyup");
 let filterBeginTime,filterEndTime,filterMinTime,filterMaxTime;
 let workType=['тарировка бака','калибровка тахографа'];
-let taskID=[],tasks=[],works=[],crm=[],carsID=[],companyesID=[],cars=[],companyes=[],subTasks=[],mods=[];
+let taskID=[],tasks=[],works=[],crm=[],carsID=[],companyesID=[],cars=[],companyes=[],subTasks=[],mods=[],rows=[],request={};
 let cost=0,carsQuantity=0,rowNumber=1,price=0,days=0,subCloseTime=0,mainCloseTime=0,modValue=1;
 let company,car,carNumber='',carModel='',companyTitle='',row='',mark='';
 let modCheck=false;
@@ -26,17 +26,7 @@ function Company(id,title){
     this.id=id;
     this.title=title;
 }
-/*function Row(rowNumber, companyName, carModel, carNumber, workType, closeDate, actTime, mark, price){
-    this.rowNumer=rowNumber;
-    this.companyName=companyName;
-    this.carModel=carModel;
-    this.carNumber=carNumber;
-    this.workType=workType;
-    this.closeDate=closeDate;
-    this.actTime=actTime;
-    this.mark=mark;
-    this.price=price;
-}*/
+let Row={};
 $(document).ready(function(){
     let l,k,i,count=0;
     let employes=[];      
@@ -120,8 +110,18 @@ $(document).ready(function(){
 	   });
     }); 
     
-    $('#elemForDispatch').dblclick(function(){        
-       /* BX24.callBatch({get_check_list: ['task.checklistitem.getlist', [46278,{'TOGGLED_DATE': 'desc'}]],	}, function(result){console.log(result.get_check_list.data());});
+    $('#elemForDispatch').dblclick(function(){ 
+        taskID.forEach(function(id,i){
+            request[i]=['task.checklistitem.getlist',[id,{'TOGGLED_DATE': 'desc'}]];
+            if (i==(taskID.length-1)){
+                setTimeout(function(){
+                    BX24.callBatch(request, function(result){console.log(result);});
+                },50);                
+            }
+        });
+        
+       /* var arr={get_check_list: ['task.checklistitem.getlist', [46278,{'TOGGLED_DATE': 'desc'}]],get_check_list2: ['task.checklistitem.getlist', [44338,{'TOGGLED_DATE': 'desc'}]] };
+BX24.callBatch(arr, function(result){console.log(result);});
        */
         BX24.callMethod('task.item.list',[
             {ID : 'desc'},		
